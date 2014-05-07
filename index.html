@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!-- Playing this game is cthartic! -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Cthender! HTML5 JavaScript Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+
+        #gamediv {
+            text-align: center;
+        }
+
+        canvas {
+            background-color: #222222;
+        }
+        .rendererView {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="scripts/pixi.js"></script>
+    <script src="scripts/howler.js"></script>
+    <script src="scripts/ParticleSystem.js"></script>
+    <script src="scripts/Main.js"></script>
+    <script src="scripts/Scroller.js"></script>
+    <script src="scripts/BackgroundScroller.js"></script>
+    <script src="scripts/GameWorld.js"></script>
+    <script src="scripts/Intermission.js"></script>
+    <script src="scripts/GameOver.js"></script>
+    <script src="scripts/RescueShip.js"></script>
+    <script src="scripts/MiniMap.js"></script>
+    <script src="scripts/Status.js"></script>
+    <script src="scripts/BackgroundMusic.js"></script>
+    <script src="scripts/GameObject.js"></script>
+    <script src="scripts/MoonObject.js"></script>
+    <script src="scripts/TowerObject.js"></script>
+    <script src="scripts/BuildingObject.js"></script>
+    <script src="scripts/ManObject.js"></script>
+    <script src="scripts/PlayerObject.js"></script>
+    <script src="scripts/ExplodyShip.js"></script>
+    <script src="scripts/ExplodyMan.js"></script>
+    <script src="scripts/ManFlying.js"></script>
+    <script src="scripts/Cthortal.js"></script>
+    <script src="scripts/Cthing.js"></script>
+    <script src="scripts/Cthomber.js"></script>
+    <script src="scripts/Cthomb.js"></script>
+    <script src="scripts/Cthlug.js"></script>
+    <script src="scripts/Cthod.js"></script>
+    <script src="scripts/Cthly.js"></script>
+    <script src="scripts/WeaponLaser.js"></script>
+    <script src="scripts/stats.min.js"></script>
+    <script src="scripts/ExplodyCthing.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+    <script>
+        WebFont.load({
+                         google: {
+                             families: ['Play']
+                         }
+                     });
+    </script>
+</head>
+<body onload="init();">
+<div id="gamediv">
+    <canvas id="game-canvas" width="960" height="540"></canvas>
+</div>
+<script type="text/javascript">
+    "use strict";
+    var main;
+    function init() {
+
+        main = new Main();
+
+    }
+
+</script>
+</body>
+</html>

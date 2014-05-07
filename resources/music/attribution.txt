@@ -1,0 +1,18 @@
+Music samples by ERH at freesound.
+1.mp3 = 28407__erh__electroscape1
+2.mp3 = 30260__erh__boom-1
+3.mp3 = 30304__erh__blaster-1
+4.mp3 = 30305__erh__call
+5.mp3 = 30336__erh__slow-stab
+6.mp3 = 30615__erh__bass-stab
+7.mp3 = 30616__erh__cat-synth
+8.mp3 = 31041__erh__sirens-of-amygdala
+9.mp3 = 32896__erh__39-raw-2
+10.mp3 = 32900__erh__rumble-2
+11.mp3 = 35479__erh__space-sound-1
+12.mp3 = 35616__erh__drone-1
+13.mp3 = 35899__erh__redchalkyellowskin
+14.mp3 = 36757__erh__ghostly-voices
+15.mp3 = 37610__erh__deep-cavern
+16.mp3 = 42119__erh__scifi-menace
+17.mp3 = 44281__erh__a-o-1-19-sci-fi-3

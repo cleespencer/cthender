@@ -1,0 +1,5 @@
+science_fiction_phaser_gun.mp3 = freesfx.co.uk
+explosion_single_large_10.mp3 = freesfx.co.uk
+explosion_3.mp3 = freesfx.co.uk
+gameover.mp3 = Drum Track by Jobro on freesound.
+cthies_move = faceonmars on freesound
