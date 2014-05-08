@@ -19,7 +19,6 @@ function Cthomber(world, stage, worldwidth, worldheight, viewwidth, viewheight, 
     this.deltav = new PARTSYS.Vector(0, 0);
     width = 64;
     height = 64;
-    this.onebirth = false;
 
     this.cthingsoundplaying = false;
     this.cthingsound = new Howl({
@@ -80,7 +79,7 @@ Cthomber.prototype.getClosestManDelta = function () {
         manclosestdistance = 90001;
         manclosest = null;
     }
-    var dx = 0, dy = 0;
+    var dx, dy = 0;
     for (i = 0; i < this.world.men.length; i++) {
         manstatus = this.world.men[i].status;
         if (manstatus !== "standing") {
@@ -203,7 +202,7 @@ Cthomber.prototype.updateTexture = function () {
 
 Cthomber.prototype.update = function (newx, dt) {
     "use strict";
-    var x, y = this.worldy, rightmost, fragment = -1, i;
+    var x, y = this.worldy, rightmost, fragment = -1;
     this.visible = false;
 
     if (this.birth && !this.cthlugBirthed && this.textureincrement === this.textures_birth.length - 1) {

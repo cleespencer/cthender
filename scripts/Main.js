@@ -5,7 +5,7 @@ function timeStamp() {
     return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
 }
 
-function Main() {
+function Main(saferenderer, gamevolume) {
     "use strict";
     this.stats = new Stats();
     this.stats.setMode(1);
@@ -15,16 +15,20 @@ function Main() {
     document.getElementById('gamediv').appendChild(this.stats.domElement);
 
     this.stage = new PIXI.Stage(0x000000);
-    this.renderer = PIXI.autoDetectRenderer(
-        960,
-        595,
-        document.getElementById("game-canvas")
-    );
-    /*this.renderer = new PIXI.CanvasRenderer(
-     960,
-     595,
-     document.getElementById("game-canvas")
-     );*/
+    if (saferenderer) {
+        this.renderer = new PIXI.CanvasRenderer(
+            960,
+            595,
+            document.getElementById("game-canvas")
+        );
+
+    } else {
+        this.renderer = PIXI.autoDetectRenderer(
+            960,
+            595,
+            document.getElementById("game-canvas")
+        );
+    }
     this.renderer.view.className = "rendererView";
     this.wave = 1;
     this.score = 0;
@@ -35,7 +39,7 @@ function Main() {
     if (!Howler.usingWebAudio) {
         Howler.mute();
     } else {
-        Howler.volume(.5);
+        Howler.volume(gamevolume);
     }
     this.loadSpriteSheet();
 }
@@ -47,7 +51,7 @@ Main.prototype.update = function () {
     "use strict";
     var now, dt, secondcheck;
     if (document.hidden) {
-        this.lasttimestamp=null;
+        this.lasttimestamp = null;
         return;
     }
     now = timeStamp();
@@ -107,13 +111,13 @@ Main.prototype.newWave = function () {
 
 Main.prototype.newIntermission = function () {
     "use strict";
-    var men, intermissiontype, menneeded, i, saved=0;
+    var men, intermissiontype, menneeded, i, saved = 0;
     for (i = 0; i < this.gameworld.men.length; i++) {
         if (this.gameworld.men[i].status === "saved") {
             saved++;
         }
     }
-    menneeded = Math.floor(this.gameworld.men.length*(Math.floor(50 + (this.wave / 5) * 5)/100));
+    menneeded = Math.floor(this.gameworld.men.length * (Math.floor(50 + (this.wave / 5) * 5) / 100));
     this.everySecond = this.everyIntermissionSecond;
     if (this.gameworld) {
         men = this.gameworld.men;
@@ -126,8 +130,8 @@ Main.prototype.newIntermission = function () {
         this.gameworld = new Intermission(this.stage, this.renderer, this, men);
     } else {
         this.gameworld = new GameOver(this.stage, this.renderer, this, men);
-        this.wave=0;
-        this.score=0;
+        this.wave = 0;
+        this.score = 0;
     }
     this.status = new Status(this.stage, this, this.gameworld);
     this.lasttimestamp = null;

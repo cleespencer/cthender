@@ -91,7 +91,7 @@ Cthod.prototype.everySecondNormal = function (e) {
         } else if (ychange < .51) {
             this.deltav.y = 0;
         }
-        if (xchange > .83 && ychange > .83) {
+        if (xchange > .73 && ychange > .73) {
             this.open = true;
             this.deltav.x = 0;
             this.deltav.y = 0;
@@ -104,7 +104,7 @@ Cthod.prototype.everySecondNormal = function (e) {
 Cthod.prototype.everySecondOpen = function (e) {
     "use strict";
     var cthly;
-    if (Math.random() < .3) {
+    if (Math.random() < .5) {
         this.open = false;
         this.textureincrement = -1;
         this.texturevector = 1;
