@@ -1,0 +1,10 @@
+<div style="padding-left: 5px;">
+    <h1 style="text-align: center;">Configuration</h1>
+    <input id="configdefaultrenderer" name="renderer" onclick="saferenderer=false;" type="radio">Default Renderer</input>
+    &nbsp;&nbsp;&nbsp;
+    <input id="configsaferenderer" name="renderer" type="radio" onclick="saferenderer=true;">Safe Renderer</input>
+    <br /><br />
+    <input id="configvolume" type="range" onchange="gamevolume=this.value;" name="points" step=".1" min="0" max="1" value=".5">&nbsp;Sound Volume</input>
+    <br /><br />
+    <a href="#" onclick="resetConfiguration();" class="glowhover">Reset</a>
+</div>

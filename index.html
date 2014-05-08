@@ -5,25 +5,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Cthender! HTML5 JavaScript Game</title>
+    <link href='http://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Denk+One:400" rel="stylesheet" type="text/css">
     <style>
         body {
             margin: 0;
             padding: 0;
             background-color: #000000;
+            color: #00CC00;
+            font-family: 'Denk One', cursive;
+            background: url(resources/background.png);
+        }
+
+        #title {
+            font-family: 'Creepster', cursive;
+            font-weight: bold;
+        }
+
+        #titlename {
+            margin-left: 1em;
+            font-size: 4em;
+        }
+
+        #copyright {
+            font-family: 'Denk One', cursive;
+            margin-left: 10em;
+            font-size: .6em;
+            padding-bottom: 10px;
         }
 
         #gamediv {
             text-align: center;
         }
 
+        #selectors {
+            float: left;
+        }
+
+        #selectors li {
+            border-top: 1px solid lightgrey;
+            border-left: 1px solid lightgray;
+            border-right: 1px solid lightgray;
+            padding: .5em;
+            width: 6em;
+            list-style-type: none;
+            text-align: center;
+        }
+
+        #selectors li:last-child {
+            border-bottom: 1px solid lightgray;
+        }
+
+        #content {
+            width: 400px;
+            height: 300px;
+            padding: 0px;
+            margin: 0px;
+            float: left;
+            border: 1px solid lightgray;
+            background-color: black;
+        }
+
         canvas {
             background-color: #222222;
         }
+
         .rendererView {
             position: absolute;
             display: block;
             width: 100%;
             height: 100%;
+        }
+
+        .glowhover {
+            font-family: 'Denk One', cursive;
+            text-decoration: none;
+            color: #00CC00;
+        }
+
+        .glowhover:hover {
+            text-shadow: 1px 0px 20px yellow;
+            -webkit-transition: all 0.3s ease-in; /*Safari & Chrome*/
+            transition: all 0.3s ease-in;
+            -moz-transition: all 0.3s ease-in; /* Firefox 4 */
+            -o-transition: all 0.3s ease-in; /* Opera */
+        }
+
+        .glowhover:active {
+            text-shadow: 1px 0px 5px white;
+            -webkit-transition: all 0.1s linear; /*Safari & Chrome*/
+            transition: all 0.1s linear;
+            -moz-transition: all 0.1s linear; /* Firefox 4 */
+            -o-transition: all 0.1s linear; /* Opera */
+
+        }
+
+        #readyplayerone {
+            background: url("resources/buttonup.png");
+            display: block;
+            text-indent: -9999px;
+            height: 100px;
+            width: 100px;
+        }
+
+        #readyplayerone:active {
+            background: url("resources/buttondown.png");
+            display: block;
+            text-indent: -9999px;
+            height: 100px;
+            width: 100px;
         }
     </style>
     <script src="scripts/pixi.js"></script>
@@ -60,6 +150,7 @@
     <script src="scripts/ExplodyCthing.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
     <script>
+        var main;
         WebFont.load({
                          google: {
                              families: ['Play']
@@ -68,18 +159,87 @@
     </script>
 </head>
 <body onload="init();">
+<div id="menu">
+    <div id="title">
+        <div id="titlename">Cthender!</div>
+        <div id="copyright">Cthender! Copyright 2014 C. Lee Spencer</div>
+    </div>
+    <div id="selectors">
+        <ul>
+            <li><a href="#" class="glowhover" onclick="clickTutorial();">Tutorial</a></li>
+            <li><a href="#" class="glowhover" onclick="clickConfiguration();">Configuration</a></li>
+            <li><a href="#" class="glowhover" onclick="clickCredits();">Credits</a></li>
+            <li><a href="#" id="readyplayerone" onclick="clickStart();"></a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <img onclick="clickTutorial();" src="resources/tutorial0.png" style="width:100%;height:100%;"/>
+    </div>
+</div>
 <div id="gamediv">
     <canvas id="game-canvas" width="960" height="540"></canvas>
 </div>
 <script type="text/javascript">
     "use strict";
-    var main;
-    function init() {
+    var tutorialindex = 0;
+    var saferenderer = false;
+    var gamevolume = .5;
 
-        main = new Main();
-
+    function resetConfiguration() {
+        saferenderer=false;
+        gamevolume=.5;
+        document.getElementById("configdefaultrenderer").checked=true;
+        document.getElementById("configvolume").value=gamevolume;
     }
 
+    function clickConfiguration() {
+        var mygetrequest = PIXI.AjaxRequest();
+        if (mygetrequest.overrideMimeType) {
+            mygetrequest.overrideMimeType('text/html');
+        }
+        mygetrequest.open("GET", "configuration.html", true);
+        mygetrequest.send();
+        mygetrequest.onreadystatechange = function () {
+            if (mygetrequest.readyState == 4) {
+                if (mygetrequest.status == 200) {
+                    document.getElementById("content").innerHTML = mygetrequest.responseText;
+                    if (saferenderer) {
+                        document.getElementById("configsaferenderer").checked=true;
+                    } else {
+                        document.getElementById("configdefaultrenderer").checked=true;
+                    }
+                    document.getElementById("configvolume").value=gamevolume;
+                }
+                else {
+                    document.getElementById("content").innerHTML = "<b>Error getting configuration details.</b>"
+                }
+            }
+        }
+    }
+
+    function clickTutorial() {
+        tutorialindex++;
+        if (tutorialindex > 7) {
+            tutorialindex = 0;
+        }
+        document.getElementById("content").innerHTML = '<img onclick="clickTutorial();" src="resources/tutorial' + tutorialindex + '.png" style="width:100%;height:100%;" />';
+    }
+
+    function clickCredits() {
+        document.getElementById("content").innerHTML = '<img  src="resources/credits.png" style="width:100%;height:100%;" />';
+        tutorialindex = -1;
+    }
+
+    function clickStart() {
+        document.getElementById("menu").style.visibility = "hidden";
+        document.getElementById("menu").style.height = "0px";
+        document.getElementById("gamediv").style.visibility = "visible";
+        main = new Main(saferenderer, gamevolume);
+    }
+
+    function init() {
+        document.getElementById("gamediv").style.visibility = "hidden";
+    }
 </script>
 </body>
 </html>
