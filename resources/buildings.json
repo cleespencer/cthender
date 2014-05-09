@@ -642,6 +642,14 @@
 },
 "cthorticle.png":
 {
+	"frame": {"x":1014,"y":80,"w":2,"h":2},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":2},
+	"sourceSize": {"w":2,"h":2}
+},
+"eggplanticle.png":
+{
 	"frame": {"x":1018,"y":76,"w":2,"h":2},
 	"rotated": false,
 	"trimmed": false,
@@ -1455,6 +1463,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:7c1fc03934a0334267f78b6b9c0a0811:6cc3a43aa1e924bf26f63032f2b22f35:8f670863a0ac9ac15291caba2801fd50$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1e78906f9147980e4b9e8d2cdec5849c:5af177a77966c2568f618f11dbc7d1f0:8f670863a0ac9ac15291caba2801fd50$"
 }
 }

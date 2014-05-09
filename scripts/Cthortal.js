@@ -101,7 +101,14 @@ Cthortal.prototype.expand = function (units) {
 
 Cthortal.prototype.createParticle = function (particle) {
     "use strict";
-    var texture = PIXI.Texture.fromFrame("cthorticle.png");
+    var texture,chances=Math.random();
+    if (chances<.75) {
+        texture = PIXI.Texture.fromFrame("eggplanticle.png");
+    } else if (chances<.85) {
+        texture = PIXI.Texture.fromFrame("tractoricle.png");
+    } else {
+        texture = PIXI.Texture.fromFrame("cthorticle.png");
+    }
     particle.sprite = new PIXI.Sprite(texture, 32, 32);
     particle.sprite.position.x = particle.position.x;
     particle.sprite.position.y = particle.position.y;

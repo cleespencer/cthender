@@ -199,19 +199,12 @@ PlayerObject.prototype.updateSound = function () {
 
 PlayerObject.prototype.updateTexture = function () {
     "use strict";
-    var pd, animset, texturetype, playertexture;
+    var pd, animset, playertexture;
     pd = this.playerdirection !== 0 ? this.playerdirection : this.olddirection;
     if (pd === 1) {
         animset = "ship_r.png";
     } else {
         animset = "ship.png";
-    }
-    if (this.playerdirection === 0) {
-        texturetype = "stop";
-    } else if (this.thrusters && this.playerfuel > 1) {
-        texturetype = "afterburn";
-    } else {
-        texturetype = "thrust";
     }
     playertexture = PIXI.Texture.fromFrame(animset);
     this.setTexture(playertexture);
@@ -307,7 +300,11 @@ PlayerObject.prototype.update = function (newx, units, dt) {
         } else {
             // the ship should move 1 pixel (up or down) every 10 milliseconds,
             // or 100 pixels per second.
-            vdelta = -((timeStamp() - this.vtime) / 10);
+            if (this.thrusters) {
+                vdelta = -1.5 * ((timeStamp() - this.vtime) / 10);
+            } else {
+                vdelta = -((timeStamp() - this.vtime) / 10);
+            }
         }
         this.vtime = timeStamp();
     } else if (this.vkey === 'down') {
@@ -316,7 +313,11 @@ PlayerObject.prototype.update = function (newx, units, dt) {
         } else {
             // the ship should move 1 pixel (up or down) every 10 milliseconds,
             // or 100 pixels per second.
-            vdelta = (timeStamp() - this.vtime) / 10;
+            if (this.thrusters) {
+                vdelta = 1.5 * (timeStamp() - this.vtime) / 10;
+            } else {
+                vdelta = (timeStamp() - this.vtime) / 10;
+            }
         }
         this.vtime = timeStamp();
     } else {
