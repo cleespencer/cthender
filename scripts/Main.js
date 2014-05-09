@@ -33,6 +33,7 @@ function Main(saferenderer, gamevolume) {
     this.wave = 1;
     this.score = 0;
     this.secondTickInterval = null;
+    this.paused=false;
     this.firstinit = true;
     this.gameworld = null;
     this.everySecond = null;
@@ -50,8 +51,9 @@ Main.prototype = Object.create(Object.prototype);
 Main.prototype.update = function () {
     "use strict";
     var now, dt, secondcheck;
-    if (document.hidden) {
+    if (document.hidden || this.paused) {
         this.lasttimestamp = null;
+        requestAnimFrame(this.update.bind(this));
         return;
     }
     now = timeStamp();
@@ -175,6 +177,10 @@ Main.prototype.checkKeyUp = function (e) {
         if (key == 66) { // b = volume down;
             Howler.volume(Howler.volume() - .1);
         }
+    }
+    if (key === 27 && this.gameworld instanceof GameWorld) {
+        this.paused = this.paused !== true;
+        return;
     }
     if (key === 13 && (this.gameworld instanceof Intermission || this.gameworld instanceof GameOver)) {
         this.newWave();
