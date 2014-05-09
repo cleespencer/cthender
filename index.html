@@ -169,6 +169,7 @@
             <li><a href="#" class="glowhover" onclick="clickTutorial();">Tutorial</a></li>
             <li><a href="#" class="glowhover" onclick="clickConfiguration();">Configuration</a></li>
             <li><a href="#" class="glowhover" onclick="clickCredits();">Credits</a></li>
+            <li><a href="#" class="glowhover" onclick="clickContact();">Contact</a></li>
             <li><a href="#" id="readyplayerone" onclick="clickStart();"></a></li>
         </ul>
     </div>
@@ -212,6 +213,25 @@
                 }
                 else {
                     document.getElementById("content").innerHTML = "<b>Error getting configuration details.</b>"
+                }
+            }
+        }
+    }
+
+    function clickContact() {
+        var mygetrequest = PIXI.AjaxRequest();
+        if (mygetrequest.overrideMimeType) {
+            mygetrequest.overrideMimeType('text/html');
+        }
+        mygetrequest.open("GET", "contact.html", true);
+        mygetrequest.send();
+        mygetrequest.onreadystatechange = function () {
+            if (mygetrequest.readyState == 4) {
+                if (mygetrequest.status == 200) {
+                    document.getElementById("content").innerHTML = mygetrequest.responseText;
+                }
+                else {
+                    document.getElementById("content").innerHTML = "<b>Error getting contact details.</b>"
                 }
             }
         }
