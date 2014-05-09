@@ -44,7 +44,7 @@ GameOver.prototype.congrats = function () {
     regretstext.position.x = 480 - (regretstext.width / 2);
     regretstext.position.y = this.moon.position.y + this.moon.height + 5;
     this.stage.addChild(regretstext);
-    scoretext = new PIXI.Text("Your final SCORE: "+this.game.score,
+    scoretext = new PIXI.Text("Your final SCORE is "+this.game.score+ " on WAVE "+this.game.wave,
                               {font: "20px Play", fill: "red", align: "left"});
     scoretext.position.x = 480 - (scoretext.width / 2);
     scoretext.position.y = regretstext.y + regretstext.height + 5;
