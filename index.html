@@ -164,6 +164,7 @@
         <div id="titlename">Cthender!</div>
         <div id="copyright">Cthender! Copyright 2014 C. Lee Spencer</div>
     </div>
+    <div id="score"></div>
     <div id="selectors">
         <ul>
             <li><a href="#" class="glowhover" onclick="clickTutorial();">Tutorial</a></li>
@@ -260,10 +261,20 @@
     }
 
     function init() {
+        var highscore, maxwave;
         document.getElementById("gamediv").style.visibility = "hidden";
         if ('localStorage' in window && window['localStorage'] !== null) {
-            saferenderer=localStorage["saferenderer"];
-            gamevolume=localStorage["gamevolume"];
+            saferenderer=localStorage["saferenderer"]  || 'false';
+            saferenderer=(saferenderer === 'true');
+            gamevolume=localStorage["gamevolume"] || '.5';
+            gamevolume=parseFloat(gamevolume);
+            highscore=localStorage["highscore"] || 0;
+            highscore=parseInt(highscore,10);
+            maxwave=localStorage["maxwave"] || 1;
+            maxwave=parseInt(maxwave,10);
+            if (highscore>0) {
+                document.getElementById("score").innerHTML = "<b>High Score:&nbsp;" + highscore + "<br/>&nbsp;&nbsp;Max Wave:&nbsp;" + maxwave+"</b>";
+            }
         }
     }
 </script>

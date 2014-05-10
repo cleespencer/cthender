@@ -34,7 +34,7 @@ GameOver.prototype = Object.create(Object.prototype);
 
 GameOver.prototype.congrats = function () {
     "use strict";
-    var regretstext, savedtext, hitentertext, scoretext, saved = 0, i;
+    var regretstext, savedtext, highscore, maxwave, hitentertext, scoretext, saved = 0, i;
     for (i = 0; i < this.gamemen.length; i++) {
         if (this.gamemen[i].status === "saved") {
             saved++;
@@ -44,7 +44,7 @@ GameOver.prototype.congrats = function () {
     regretstext.position.x = 480 - (regretstext.width / 2);
     regretstext.position.y = this.moon.position.y + this.moon.height + 5;
     this.stage.addChild(regretstext);
-    scoretext = new PIXI.Text("Your final SCORE is "+this.game.score+ " on WAVE "+this.game.wave,
+    scoretext = new PIXI.Text("Your final SCORE is " + this.game.score + " on WAVE " + this.game.wave,
                               {font: "20px Play", fill: "red", align: "left"});
     scoretext.position.x = 480 - (scoretext.width / 2);
     scoretext.position.y = regretstext.y + regretstext.height + 5;
@@ -59,6 +59,19 @@ GameOver.prototype.congrats = function () {
     hitentertext.position.x = 480 - (hitentertext.width / 2);
     hitentertext.position.y = savedtext.y + savedtext.height + 5;
     this.stage.addChild(hitentertext);
+
+    if ('localStorage' in window && window['localStorage'] !== null) {
+        highscore = localStorage["highscore"] || 0;
+        maxwave = localStorage["maxwave"] || 1;
+        if (this.game.score > highscore) {
+            highscore = this.game.score;
+        }
+        if (this.game.wave > maxwave) {
+            maxwave = this.game.wave;
+        }
+        localStorage["highscore"] = highscore.toString(10);
+        localStorage["maxwave"] = maxwave.toString(10);
+    }
 };
 
 GameOver.prototype.generateEmitter = function (x, width, height) {
@@ -203,7 +216,7 @@ GameOver.prototype.status = function () {
 GameOver.prototype.secondTick = function (e) {
     "use strict";
     var i;
-    for (i=0;i<this.cthings.length;i++) {
+    for (i = 0; i < this.cthings.length; i++) {
         this.cthings[i].everySecond(e);
     }
 
@@ -219,7 +232,7 @@ GameOver.prototype.update = function (dt) {
         this.men[i].sprite.update(0, this.men[i], null, dt);
     }
     for (i = 0; i < this.cthings.length; i++) {
-        this.cthings[i].update(0,dt);
+        this.cthings[i].update(0, dt);
     }
     this.particlesystem.update(dt);
     this.renderer.render(this.stage);
