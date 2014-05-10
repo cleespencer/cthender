@@ -33,6 +33,8 @@ function GameWorld(stage, renderer, game) {
     this.game = game;
     this.wave = this.game.wave;
     this.basedelta = 5;
+    this.respawntimer = 0;
+    this.respawnTimerID = null;
     this.keyarrs = [];
     this.city = [];
     this.ships = [];
@@ -81,6 +83,12 @@ function GameWorld(stage, renderer, game) {
                                         {font: "20px Play", fill: "white", align: "left"});
     this.gamepercentage.position.x = 480 - (this.gamepercentage.width / 2);
     this.gamepercentage.position.y = this.moon.position.y + this.moon.height + 5;
+    this.respawntext = new PIXI.Text("New ship respawning in 0 seconds to continue the fight!",
+                                     {font: "20px Play", fill: "white", align: "left"});
+    this.respawntext.position.x = 480 - (this.respawntext.width / 2 );
+    this.respawntext.position.y = this.moon.position.y + this.moon.height + 5;
+    this.respawntext.alpha = 0;
+    this.stage.addChild(this.respawntext);
     this.stage.addChild(this.gamepercentage);
 }
 
@@ -110,6 +118,9 @@ GameWorld.prototype.cleanup = function () {
     this.backgroundmusic.stop();
     this.minimap.cleanup();
     this.player.cleanup();
+    if (this.respawnTimerID) {
+        clearTimeout(this.respawnTimerID);
+    }
     for (i = 0; i < this.cthortals.length; i++) {
         this.cthortals[i].cleanup();
     }
@@ -246,6 +257,16 @@ GameWorld.prototype.checkKeyDown = function (key) {
 GameWorld.prototype.secondTick = function (e) {
     "use strict";
     var i;
+    if (this.respawntimer && this.player instanceof ExplodyShip) {
+        this.respawntext.setText("New ship respawning in " + this.respawntimer + " seconds to continue the fight!");
+        this.respawntext.alpha = (this.respawntimer * 20) / 100;
+        this.respawntimer--;
+    } else if (!this.respawntimer && this.player instanceof ExplodyShip) {
+        this.respawntext.alpha = 0;
+        this.player.forcecleanup();
+    } else {
+        this.respawntext.alpha = 0;
+    }
     this.player.everySecond(e);
     for (i = 0; i < this.towers.length; i++) {
         this.towers[i].everySecond(e);
@@ -364,14 +385,14 @@ GameWorld.prototype.cthortalTick = function (e) {
             //cthing = new Cthing(this, this.stage, GameWorld.WORLDMAX, 540, 960, 540, x, y);
             if (this.wave < 5) {
                 cthing = new Cthing(this, this.stage, GameWorld.WORLDMAX, 540, 960, 540, x, y);
-            } else if (this.wave >= 5 && this.wave<10) {
+            } else if (this.wave >= 5 && this.wave < 10) {
                 if (Math.random() < .75) {
                     cthing = new Cthing(this, this.stage, GameWorld.WORLDMAX, 540, 960, 540, x, y);
                 } else {
                     cthing = new Cthod(this, this.stage, GameWorld.WORLDMAX, 540, 960, 540, x, y);
                 }
             } else {
-                chances=Math.random();
+                chances = Math.random();
                 if (chances < .65) {
                     cthing = new Cthing(this, this.stage, GameWorld.WORLDMAX, 540, 960, 540, x, y);
                 } else if (chances >= .65 && chances < .90) {
@@ -505,6 +526,11 @@ GameWorld.prototype.update = function (dt) {
 
 GameWorld.prototype.respawnPlayer = function () {
     "use strict";
+    if (this.respawntimer) {
+        this.respawnTimerID = setTimeout(this.respawnPlayer.bind(this), 1000);
+        return;
+    }
+    this.respawnTimerID = null;
     this.camerax = 0;
     this.player = new PlayerObject(this.stage, this.particlesystem, GameWorld.WORLDMAX, 540, 960, 540, 254);
     this.stage.addChild(this.player);
@@ -560,6 +586,7 @@ GameWorld.prototype.playerBlooie = function (buildinghit) {
     }
     this.player.cleanup();
     this.stage.removeChild(this.player);
+    this.respawntimer = 5;
     if (this.player.manattached) {
         if (buildinghit) {
             this.manBlooie(this.player.manattached);

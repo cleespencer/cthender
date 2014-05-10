@@ -177,6 +177,10 @@ ExplodyShip.prototype.cleanup = function () {
     this.onDone();
 };
 
+ExplodyShip.prototype.forcecleanup = function () {
+    this.particlesystem.removeEmitter("junk1");
+};
+
 ExplodyShip.prototype.update = function (newx, units) {
     "use strict";
 };
