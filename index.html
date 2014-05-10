@@ -191,6 +191,8 @@
         gamevolume=.5;
         document.getElementById("configdefaultrenderer").checked=true;
         document.getElementById("configvolume").value=gamevolume;
+        localStorage['saferenderer']=saferenderer;
+        localStorage['gamevolume']=gamevolume;
     }
 
     function clickConfiguration() {
@@ -259,6 +261,10 @@
 
     function init() {
         document.getElementById("gamediv").style.visibility = "hidden";
+        if ('localStorage' in window && window['localStorage'] !== null) {
+            saferenderer=localStorage["saferenderer"];
+            gamevolume=localStorage["gamevolume"];
+        }
     }
 </script>
 </body>
