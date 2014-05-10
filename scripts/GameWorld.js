@@ -971,9 +971,10 @@ GameWorld.prototype.testcollidecthlug = function (test) {
 
 GameWorld.prototype.collideman = function () {
     "use strict";
-    var i, test, death, ret;
+    var i, j, test, death, ret,attachtest;
 
     for (i = 0; i < this.men.length; i++) {
+        attachtest=false;
         test = this.men[i];
         if (test.status === "dead") {
             continue;
@@ -982,7 +983,25 @@ GameWorld.prototype.collideman = function () {
             continue;
         }
         if (test.status === "flailing") {
-            continue;
+            // There is an edge case where a cthing will die
+            // but not set a man's status to falling first.
+            // this is a hack to save the situation.
+            for (j=0;j<this.cthings.length;j++) {
+                if (this.cthings[j].manattached) {
+                    if (this.cthings[j].manattached===test) {
+                        attachtest=true;
+                        break;
+                    }
+                }
+                if (attachtest) {
+                    break;
+                }
+            }
+            if (attachtest) {
+                continue;
+            }
+            test.status = "falling";
+            test.fallheight = test.worldy;
         }
         if (test.status === "saving") {
             this.testcollidetower(test);
