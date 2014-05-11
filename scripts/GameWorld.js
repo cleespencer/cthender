@@ -47,7 +47,8 @@ function GameWorld(stage, renderer, game) {
     this.worldheight = 540;
     this.minimap = new MiniMap(stage, this, this.viewwidth, this.viewheight);
     this.keyarrs[13] = 'enter';
-    this.keyarrs[27] = 'escape'
+    this.keyarrs[9] = 'enter';
+    this.keyarrs[27] = 'escape';
     this.keyarrs[32] = 'space';
     this.keyarrs[37] = 'left';
     this.keyarrs[38] = 'up';
